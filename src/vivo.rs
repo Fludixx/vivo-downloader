@@ -10,22 +10,6 @@ impl Site {
         Site { url }
     }
 
-    pub fn get_video_size(&self) -> u32 {
-        let content = reqwest::get(self.url.clone().as_str())
-            .unwrap()
-            .text()
-            .unwrap();
-        let regex = Regex::new(r"\((.*?)MB\)").unwrap();
-        let size = regex
-            .find(content.as_ref())
-            .unwrap()
-            .as_str()
-            .replace("(", "")
-            .replace(")", "")
-            .replace(" MB", "");
-        (size.parse::<f64>().unwrap() * (10 as f64).powf(6.0)).round() as u32
-    }
-
     pub fn get_video_url(&self) -> String {
         let content = reqwest::get(self.url.clone().as_str())
             .unwrap()
